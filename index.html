@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استخارة الجفر</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>استخارة الجفر</h1>
+
+    <div>
+        <input type="text" id="userName" placeholder="اسمك">
+        <input type="text" id="userFatherName" placeholder="اسم والدك">
+        <input type="text" id="loverName" placeholder="اسم الحبيب">
+        <input type="text" id="loverFatherName" placeholder="اسم والد الحبيب">
+        <br>
+        <button onclick="calculate()">احسب الاستخارة</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        // الجدول الأساسي
+        const resultTable = {
+            1: 'فراق',
+            2: 'حب',
+            3: 'خراب',
+            4: 'طلاق',
+            5: 'فراق',
+            6: 'حب',
+            7: 'خراب',
+            8: 'طلاق',
+            9: 'فراق',
+            10: 'حب',
+            11: 'خراب',
+            12: 'طلاق'
+        };
+
+        // دالة لحساب الحروف المتشابهة
+        function calculateSimilarLetters(name1, name2) {
+            let similarCount = 0;
+            const shorterLength = Math.min(name1.length, name2.length);
+
+            for (let i = 0; i < shorterLength; i++) {
+                if (name1[i] === name2[i]) {
+                    similarCount++;
+                }
+            }
+
+            return similarCount;
+        }
+
+        function calculate() {
+            const userName = document.getElementById('userName').value;
+            const userFatherName = document.getElementById('userFatherName').value;
+            const loverName = document.getElementById('loverName').value;
+            const loverFatherName = document.getElementById('loverFatherName').value;
+
+            if (!userName || !userFatherName || !loverName || !loverFatherName) {
+                document.getElementById('result').innerText = 'الرجاء إدخال جميع الأسماء';
+                return;
+            }
+
+            // حساب الحروف المتشابهة بين اسم الشخص والحبيب
+            let similarCount1 = calculateSimilarLetters(userName, loverName);
+            let similarCount2 = calculateSimilarLetters(userFatherName, loverFatherName);
+
+            // العدد النهائي هو مجموع الحروف المتشابهة
+            let finalNumber = similarCount1 + similarCount2;
+
+            // إذا كان العدد أكبر من 12، نأخذ باقي القسمة على 12
+            finalNumber = finalNumber % 12 || 12;
+
+            // البحث في الجدول عن النتيجة
+            let result = resultTable[finalNumber];
+
+            document.getElementById('result').innerText = `النتيجة هي: ${result}`;
+        }
+    </script>
+
+</body>
+</html>
